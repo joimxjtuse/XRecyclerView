@@ -141,9 +141,10 @@ public class PagingRecyclerView extends HeaderAndFooterRecyclerView {
         super.onScrollStateChanged(state);
         if (state == RecyclerView.SCROLL_STATE_IDLE && mPagingListener != null && !isLoadingData && loadingMoreEnabled) {
 
-            LayoutManager layoutManager = getLayoutManager();
-            int lastVisibleItemPosition;
 
+            LayoutManager layoutManager = getLayoutManager();
+
+            int lastVisibleItemPosition;
             if (layoutManager instanceof GridLayoutManager) {
                 lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
             } else if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -153,13 +154,11 @@ public class PagingRecyclerView extends HeaderAndFooterRecyclerView {
             } else {
                 lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
             }
+            int visibleItemCount = layoutManager.getChildCount();
 
-            int itemCount = layoutManager.getItemCount();
+            int totalItemCount = getItemCount();
 
-            if (layoutManager.getChildCount() > 0
-                    && lastVisibleItemPosition >= itemCount - limitNumberToCallLoadMore
-                    && itemCount >= layoutManager.getChildCount()
-                    && !isNoMore) {
+            if ((visibleItemCount > 0 && (lastVisibleItemPosition) >= totalItemCount - limitNumberToCallLoadMore) && !isNoMore) {
                 isLoadingData = true;
                 if (mFootView instanceof LoadingMoreFooter) {
                     ((LoadingMoreFooter) mFootView).setState(LoadingMoreFooter.STATE_LOADING);
@@ -170,7 +169,6 @@ public class PagingRecyclerView extends HeaderAndFooterRecyclerView {
                 }
                 mPagingListener.onLoadMore();
             }
-
         }
     }
 

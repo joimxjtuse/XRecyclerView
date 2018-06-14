@@ -17,6 +17,8 @@ import com.example.xrecyclerview.R;
 import com.jcodecraeer.xrecyclerview.HeaderAndFooterRecyclerView;
 import com.jcodecraeer.xrecyclerview.PagingListener;
 import com.jcodecraeer.xrecyclerview.PagingRecyclerView;
+import com.jcodecraeer.xrecyclerview.PullRefreshRecyclerView;
+import com.jcodecraeer.xrecyclerview.RefreshListener;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 
 public class ChannelFragment extends Fragment {
 
-    private PagingRecyclerView mRecyclerView;
+    private PullRefreshRecyclerView mRecyclerView;
     private MyAdapter mAdapter;
 
     private RecyclerView.RecycledViewPool mPool;
@@ -64,7 +66,7 @@ public class ChannelFragment extends Fragment {
 
     private void initUI(View container) {
 
-        mRecyclerView = (PagingRecyclerView) container.findViewById(R.id.recyclerview);
+        mRecyclerView = (PullRefreshRecyclerView) container.findViewById(R.id.recyclerview);
 
         mPool = UniversalPool.getUniversalPool();
         mRecyclerView.setRecycledViewPool(mPool);
@@ -136,74 +138,35 @@ public class ChannelFragment extends Fragment {
             }
         });
 
-//        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
-//            @Override
-//            public void onRefresh() {
-//                refreshTime++;
-//                times = 0;
-//                new Handler().postDelayed(new Runnable() {
-//                    public void run() {
-//                        listData.clear();
-//                        for (int i = 0; i < itemLimit; i++) {
-//                            listData.add("Channel: " + mTitle + "; item" + i + "after " + refreshTime + " times of refresh");
-//                        }
-//                        mAdapter.notifyDataSetChanged();
-//                        if (mRecyclerView != null)
-//                            mRecyclerView.refreshComplete();
-//                    }
-//
-//                }, 1000);            //refresh data here
-//            }
-//
-//            @Override
-//            public void onLoadMore() {
-//                Log.e("aaaaa", "call onLoadMore");
-//                if (times < 2) {
-//                    new Handler().postDelayed(new Runnable() {
-//                        public void run() {
-//                            for (int i = 0; i < itemLimit; i++) {
-//                                listData.add("item" + (1 + listData.size()));
-//                            }
-//                            if (mRecyclerView != null) {
-//                                mRecyclerView.loadMoreComplete();
-//                                mAdapter.notifyDataSetChanged();
-//                            }
-//                        }
-//                    }, 1000);
-//                } else {
-//                    new Handler().postDelayed(new Runnable() {
-//                        public void run() {
-//                            for (int i = 0; i < itemLimit; i++) {
-//                                listData.add("item" + (1 + listData.size()));
-//                            }
-//                            if (mRecyclerView != null) {
-//                                mRecyclerView.setNoMore(true);
-//                                mAdapter.notifyDataSetChanged();
-//                            }
-//                        }
-//                    }, 1000);
-//                }
-//                times++;
-//            }
-//        });
+        mRecyclerView.setOnRefreshListener(new RefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                refreshTime++;
+                times = 0;
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        listData.clear();
+                        for (int i = 0; i < itemLimit; i++) {
+                            listData.add("Channel: " + mTitle + "; item" + i + "after " + refreshTime + " times of refresh");
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        if (mRecyclerView != null)
+                            mRecyclerView.refreshComplete();
+                    }
+
+                }, 1000);            //refresh data here
+
+            }
+        });
 
         listData = new ArrayList();
         for (int i = 0; i < 30; i++) {
             listData.add("item" + (1 + listData.size()));
         }
         mAdapter = new MyAdapter(listData);
-//        mAdapter.setClickCallBack(
-//                new MyAdapter.ItemClickCallBack() {
-//                    @Override
-//                    public void onItemClick(int pos) {
-//                        // a demo for notifyItemRemoved
-//                        listData.remove(pos);
-//                        mRecyclerView.notifyItemRemoved(listData, pos);
-//                    }
-//                }
-//        );
+
         mRecyclerView.setAdapter(mAdapter);
-        //mRecyclerView.refresh();
     }
 
     @Override

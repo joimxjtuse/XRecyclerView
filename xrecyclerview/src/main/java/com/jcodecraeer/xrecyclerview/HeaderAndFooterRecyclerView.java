@@ -91,6 +91,10 @@ public class HeaderAndFooterRecyclerView extends RecyclerView {
         return mEmptyView;
     }
 
+    protected final int getItemCount() {
+        return mWrapAdapter != null ? mWrapAdapter.getItemCount() : 0;
+    }
+
 
     @Override
     public void setAdapter(Adapter adapter) {
