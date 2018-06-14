@@ -1,16 +1,3 @@
-# i think XRecyclerView do too much things, maybe just want to use header/footer function;
-so i split this into three port: HeaderAndFooterRecyclerView, PagingRecyclerView, RefreshRecyclerView;
-and fix some kown bug.
-i have done :
-1. add HeaderAndFooterRecyclerView and PagingRecyclerView;
-2. fix some kown bug;
-TODO feature:
-1. add RefreshRecyclerView;
-2. something about appbarlayout;
-
-
-
-
 # XRecyclerView
 a RecyclerView that implements pullrefresh , loadingmore and header featrues.you can use it like a standard RecyclerView.
 you don't need to implement a special adapter .qq 群478803619
@@ -248,6 +235,22 @@ View header1 =   LayoutInflater.from(this).inflate(R.layout.recyclerview_header1
 mRecyclerView.addHeaderView(header);
 mRecyclerView.addHeaderView(header1);
 ```
+
+# i think XRecyclerView do too much things, maybe just want to use header/footer function;
+so i split this into three port: HeaderAndFooterRecyclerView, PagingRecyclerView, RefreshRecyclerView;
+and fix some kown bug.
+```groovy
+i have done :
+1. add HeaderAndFooterRecyclerView and PagingRecyclerView;
+2. fix some kown bug;
+```
+```groovy
+TODO feature:
+1. add RefreshRecyclerView;
+2. something about appbarlayout;
+```
+
+
 License
 -------
 
