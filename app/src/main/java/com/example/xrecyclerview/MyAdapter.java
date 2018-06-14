@@ -27,6 +27,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public MyAdapter(ArrayList<String> datas) {
         this.datas = datas;
+
+        setHasStableIds(true);
     }
     //创建新View，被LayoutManager所调用
     @Override
@@ -48,6 +50,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     }
                 }
         );
+    }
+
+    @Override
+    public long getItemId(int position) {
+
+        try {
+            return datas.get(position).hashCode();
+        } catch (Exception exce) {
+            return super.getItemId(position);
+        }
     }
 
     @Override
